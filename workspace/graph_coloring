@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<stdbool.h>
+
+int adjency_matrix[100][100];
+int color[100];
+int n;
+
+
+bool check_same(int v , int color1)
+{
+  for(int i = 0; i<n; i++)
+      if(adjency_matrix[v][i] &&color1 == color[i])
+      {
+        return false;
+      }
+      
+      return true;
+    
+}
+
+bool graphColoring(int v , int m)
+{
+  if(v == n)
+    return true;
+
+  for(int c= 1; c<=m; c++)
+    if(check_same(v,c))
+    {
+      color[v] = c;
+      if(graphColoring(v+1,m) == true)
+        return true;
+      color[v]=0;
+    }
+  return false;
+}
+
+bool check_graph(int m)
+{
+  for(int i = 0; i<n; i++)
+    {
+      color[i] = 0;
+    }
+      if(graphColoring(0,m) == false)
+      {
+        printf("not two-color");
+        return false;
+      }
+      printf("two-color");
+      return true;
+}
+
+int main()
+{
+
+  if (scanf("%d", &n) <= 0) return 1;
+  for(int i = 0; i<100; i++)
+    {
+      for(int j=0; j<100; j++)
+        {
+          adjency_matrix[i][j] = false;
+        }
+    }
+  
+  for(int i =0 ; i<n; i++)
+    {
+      int start , end;
+      if(scanf("%d %d", &start , &end) <=0)return 1;
+      adjency_matrix[start][end] = true;
+      adjency_matrix[end][start] = true;
+    }
+  check_graph(2);
+
+  
+
+
+
+
+  
+  return 0;
+}
